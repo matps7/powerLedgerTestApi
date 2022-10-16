@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="logPattern" value="%d %-5level %logger{35} - %msg%n"/>
+	<property name="logEncoding" value="UTF-8"/>
+	<property name="logDirectory" value="/var/log/algorithm" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSSZ} %level [%logger] \(%thread\) %msg%n</Pattern>
+		</layout>
+		<encoder>
+			<charset>${logEncoding}</charset>
+			<pattern>${logPattern}</pattern>
+		</encoder>
+	</appender>
+	<appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logDirectory}/myapplication.txt</file>
+		<append> true </append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${logDirectory}/myapplication_%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+			<maxFileSize>30MB</maxFileSize>
+			<maxHistory>2</maxHistory>
+			<totalSizeCap>100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<charset>${logEncoding}</charset>
+			<pattern>${logPattern}</pattern>
+		</encoder>
+	</appender>
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="fileAppender" />
+	</root>
+</configuration>
